@@ -18,4 +18,6 @@ func main() {
 	fmt.Println("Array list is : ", myArray)
 	fmt.Println("Array list is : ", len(myArray))
 
+	fmt.Printf("Type of Array list is %T: ", myArray)
+
 }
