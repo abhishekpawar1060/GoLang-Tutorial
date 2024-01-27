@@ -17,6 +17,8 @@ func main() {
 	fmt.Println("Create Json data in GoLang")
 
 	EncodeJsom()
+
+	DecodeJson()
 }
 
 func EncodeJsom() {
@@ -34,4 +36,40 @@ func EncodeJsom() {
 	}
 
 	fmt.Printf("%s\n", finalJson)
+}
+
+func DecodeJson() {
+	jsonDataFromWeb := []byte(`
+	{
+		"coursename": "React",
+		"Price": 2500,
+		"website": "learnCodeOnline.com",
+		"_": "abc123",
+		"tags": ["web-dev","JS"]
+	}	
+	`)
+
+	var lcoCourse course
+	checkValid := json.Valid(jsonDataFromWeb)
+
+	if checkValid {
+		fmt.Println("Json was valid")
+		json.Unmarshal(jsonDataFromWeb, &lcoCourse)
+		fmt.Printf("%#v\n", lcoCourse)
+	} else {
+		fmt.Println("Json was not valid")
+	}
+
+	//Some cases where you just want to add data to key value
+	fmt.Println("")
+	var myOnlineData map[string]interface{}
+	json.Unmarshal(jsonDataFromWeb, &myOnlineData)
+	fmt.Printf("%#v\n", myOnlineData)
+
+	fmt.Println("")
+
+	for k, v := range myOnlineData {
+		fmt.Printf("key is %v and value is %v and Type is : %T \n", k, v, v)
+	}
+
 }
