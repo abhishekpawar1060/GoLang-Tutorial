@@ -85,7 +85,7 @@ func deleteOneMovie(movieId string) {
 }
 
 // delete All recored from MongoDB
-func deleteAll() int64 {
+func deleteAllMovie() int64 {
 	deleteResult, err := collection.DeleteMany(context.Background(), bson.D{{}}, nil)
 
 	if err != nil {
@@ -126,4 +126,43 @@ func GetMyAllMovies(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "appliction/json")
 	allMovies := getAllMovie()
 	json.NewEncoder(w).Encode(allMovies)
+}
+
+func createMovie(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Typr", "application/x-www-form-urlencode")
+	w.Header().Set("Allow-Control-Allow_Methods", "POST")
+
+	var movie model.Netflix
+	_ = json.NewDecoder(r.Body).Decode(&movie)
+	insertOneMovie(movie)
+	json.NewEncoder(w).Encode(movie)
+
+}
+
+func MarkAsWatched(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Typr", "application/x-www-form-urlencode")
+	w.Header().Set("Allow-Control-Allow_Methods", "POST")
+
+	params := mux.Vars(r)
+
+	updateOneMovie(params["id"])
+
+	json.NewEncoder(w).Encode(params["id"])
+}
+
+func DeleteAMovie(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Typr", "application/x-www-form-urlencode")
+	w.Header().Set("Allow-Control-Allow_Methods", "DELETE")
+
+	params := mux.Vars(r)
+	deleteOneMovie(params["id"])
+	json.NewEncoder(w).Encode(params["id"])
+}
+
+func DeleteAllMovies(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Typr", "application/x-www-form-urlencode")
+	w.Header().Set("Allow-Control-Allow_Methods", "DELETE")
+
+	count := deleteAllMovie()
+	json.NewEncoder(w).Encode(count)
 }
