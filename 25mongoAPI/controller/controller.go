@@ -7,16 +7,17 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/mux"
+
 	"github.com/abhishekpawar1060/mongoapi/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/x/mongo/driver/mongocrypt/options"
 )
 
-const connectionString = "localhost:27017"
+const connectionString = "mongodb://localhost:27017"
 const dbName = "netflix"
 const colName = "watchlist"
 
@@ -128,7 +129,7 @@ func GetMyAllMovies(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(allMovies)
 }
 
-func createMovie(w http.ResponseWriter, r *http.Request) {
+func CreateMovie(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Typr", "application/x-www-form-urlencode")
 	w.Header().Set("Allow-Control-Allow_Methods", "POST")
 
